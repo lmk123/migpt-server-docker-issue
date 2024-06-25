@@ -14,15 +14,17 @@ ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
 #ENV PRISMA_GENERATE_NO_ENGINE=1
 
 # 设置 armv7l 架构的 prisma 二进制文件路径
-ENV PRISMA_QUERY_ENGINE_BINARY=/app/armv7l/query-engine
-ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/armv7l/libquery_engine.so.node
-ENV PRISMA_SCHEMA_ENGINE_BINARY=/app/armv7l/schema-engine
+ENV PRISMA_QUERY_ENGINE_BINARY=/app/armv7l/query-engine-linux-armv7l
+ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/armv7l/libquery_engine-linux-armv7l.so.node
+ENV PRISMA_SCHEMA_ENGINE_BINARY=/app/armv7l/schema-engine-linux-armv7l
 
 # 把 armv7l 架构的 prisma 二进制文件拷贝到 /app 目录下
 # 注意：其中的 query-engine 和 schema-engine 必须提前赋予可执行权限，即 `chmod +x query-engine`
 WORKDIR /app
 COPY . .
+COPY ./armv7l /usr/local/lib/node_modules/migpt-server/node_modules/.prisma/client
 
+#CMD ["echo", "done"]
 # 这里要等 1 分钟左右
 RUN npm install -g migpt-server
 EXPOSE 36592
